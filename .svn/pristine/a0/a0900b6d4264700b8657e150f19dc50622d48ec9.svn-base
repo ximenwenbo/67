@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+			function checkNM(){
+				//alert(1);
+				//获得被校验的用户名信息
+				//var nm = document.getElementById('username').value;
+				var nm = "trump&age=70很棒";
+				nm = encodeURIComponent(nm);
+				//把用户名传递给服务器校验是否存在
+				
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function(){
+					if (xhr.readyState==4) {
+						alert(xhr.responseText );
+					//document.getElementById('result').innerHTML=xhr.responseText;
+					}
+				}
+
+				xhr.open('get','05.php?name='+nm);
+				xhr.send(null);
+				
+				
+			}
+		</script>	
+</head>
+<body>
+	<h2>用户注册表单(get)</h2>
+	<form>
+	<p>用户名：
+	<input type="text" id="username" onblur="checkNM()" />
+	<span id="result"></span>
+	<p>手机号码：<input type="text" id="usertel"/></p>
+	<p>邮箱：<input type="text" id="usermail"/></p>
+	 <p><input type="submit" value="免费注册" /></p>
+	</p>
+	</form>
+
+</body>
+
+</html>

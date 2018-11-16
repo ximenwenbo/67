@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<script type="text/javascript">
+       function f1(){
+       		//创建ajax对象
+       		var xhr = new XMLHttpRequest();
+       		//console.log(xhr);
+            
+          xhr.onreadystatechange= function(){
+            //感知变化的状态信息
+            //console.log(xhr.readyState);
+            
+            if (xhr.readyState==4) {
+                //已经返回全部数据
+                //获得服务器端返回“完整”的信息
+                console.log(xhr.responseText);
+            }
+            
+          }
+
+       		//新建一个http请求
+       		//xhr.open(请求类型，服务器端地址，[]异步);
+       		xhr.open('get','./02.php');
+
+       		xhr.send(null);
+       		
+       		
+       }
+</script>
+<body>
+	<h2>Ajax请求</h2>
+	<input type="button" value="触发" onclick="f1()" />
+</body>
+</html>

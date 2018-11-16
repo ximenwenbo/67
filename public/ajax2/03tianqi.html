@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>新建网页</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <script type="text/javascript">
+        function f1(){
+            //利用Ajax去服务器端获得天气预报信息
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState==4){
+                    //xhr.responseText;  //字符串的json信息
+                    //console.log(xhr.responseText);//String
+                    //把json信息变为实体对象
+
+                    var obj = JSON.parse(xhr.responseText);
+                    //var obj = eval('('+xhr.responseText+')');
+
+                    console.log(obj);//Object
+                    document.getElementsByTagName('div')[0].innerHTML+="<p>城市："+obj.city+"</p>";
+                    document.getElementsByTagName('div')[0].innerHTML+="<p>温度："+obj.temp+"</p>";
+                    document.getElementsByTagName('div')[0].innerHTML+="<p>风力："+obj.wind+"</p>";
+                }
+            }
+            xhr.open('get','./04.php');
+            xhr.send(null);
+        }
+    </script>
+</head>
+<body>
+<h2>获得json并解析显示</h2>
+<input type="button" value="天气" onclick="f1()" />
+<div></div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+    <head>
+        <title>新建网页</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <script type="text/javascript">
+        //利用函数封装一个ajax
+        //参数url: 代表获得url所对应的分页信息的地址
+        function showpage(url){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState==4){
+                    //把服务器返回的默认第1页数据显示到页面上
+                    document.getElementById('show').innerHTML=xhr.responseText;
+                }
+            }
+            xhr.open('get',url);
+            xhr.send(null);
+        }
+
+        window.onload = function(){
+            //页面加载完毕，就去请求第1页分页数据
+            showpage('./data.php?page=1');
+        }
+        </script>
+    </head>
+    <body>
+        <h2>Ajax无刷新分页效果</h2>
+        <div id="show"></div><!--接收服务器端返回的数据-->
+    </body>
+</html>

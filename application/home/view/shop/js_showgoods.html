@@ -1,0 +1,174 @@
+<script type="text/javascript">
+
+
+
+    function hh(obj,uid){
+
+        if(!obj.checked){
+            //最下方的总金额
+            var zong_price1 = parseInt($('.summoney').html());
+
+            //当前取消选中商品的价格小计
+            var price  = parseInt($('#'+uid).html()) ;
+            //当前剩余选中商品总价格
+            var zong_price2 = zong_price1-price;
+            //更新总价格
+            $('.summoney').html(zong_price2);
+
+
+            //最下方的总数量
+            var zong_number = parseInt($('#total_number').html());
+            //取消选中该商品的数量
+            var number1 = parseInt($('#'+uid+'_').val()) ;
+            //剩余选中的总数量
+            var zong_number2 = zong_number-number1;
+            //更新总数量
+            $('#total_number').html(zong_number2);
+
+
+        }
+        if(obj.checked){
+
+            //做选中商品实时更新
+            //选中该商品的数量
+            var number1 = parseInt($('#'+uid+'_').val()) ;
+            //最下方的总数量
+            var zong_number = parseInt($('#total_number').html());
+            //计算选中商品的总数量
+            var zong_number2 = number1 + zong_number;
+            //更新总数量
+            $('#total_number').html(zong_number2);
+
+
+            //选中商品总价格实时更新
+            //获得当前总价格
+            var zong_price1 = parseInt($('.summoney').html());
+            //获得选中的商品小计价格
+           var price  = parseInt($('#'+uid).html()) ;
+            //计算最终总价格
+            var zong_price2 = price+zong_price1;
+            //更新总价格
+            $('.summoney').html(zong_price2);
+
+
+        }
+
+
+
+    }
+
+
+
+
+    //购物车删除商品
+    function del_goods(obj,uid){
+        layer.confirm('确认要删除该商品么',function(index){
+            //触发执行Ajax实现调用服务器端删除商品
+            $.ajax({
+                url:'{:url("del")}',
+                data:{uid:uid},
+                dataType:'json',
+                type:'post',
+                success:function(info){
+                    //删除商品的页面dom元素
+                    $(obj).closest('.cart-list').remove();
+                    //更新总数量、总价格
+                    $('#total_number').html(info.cnumber);
+                    $('.summoney').html('¥'+info.cprice);
+                }
+            });
+            layer.close(index); //清除确认框弹层
+        });
+    }
+
+    /**@param obj:数量input框的dom对象
+     * @param uid :购物车商品标志
+     * @returns {boolean}
+     */
+
+    function xiugai(obj,uid){
+        //num：修改后购买数量
+        var num = parseInt($('#'+uid+'_').val());
+
+
+
+        var fuhao = $(obj).val();
+        if(fuhao == '+'){
+                num++;
+        }else if(fuhao == '-'){
+            num--;
+        }
+
+
+        //修改数量要求不能小于1
+        if(num<1){
+            layer.msg('商品数量要求大于等于1',{icon:5,time:3000},function(){
+                //刷新页面，找回商品原数量
+                window.location.href=window.location.href;
+            });
+            //阻止后续代码执行
+            return false;
+        }
+        //利用Ajax触发请求服务器端，实现购物车商品数量修改
+        $.ajax({
+            url:'{:url("xiugainum")}',
+            data:{uid:uid,num:num},
+            dataType:'json',
+            type:'post',
+            success:function(info){
+
+                //console.log(info);//{cnumber: 6, cprice: 4112.35, cgoods_price_sum: 666.44}
+                //更新当前商品的小计价格
+                $(obj).parents('div.cart-list').find('span.sum').html(info.cgoods_price_sum);
+
+
+                //更新全部商品的总数量
+//                $('#total_number').html(info.cnumber);
+
+
+                if( document.getElementById(uid+'-').checked){
+
+                    //获得当前总价格
+                   var zong_pri = parseInt($('.summoney').html());
+                    //获得当前选中商品单价
+                   var danjia = parseInt($('#'+uid+'--').html());
+
+                    //获得当前选中商品数量
+                    var number = parseInt($('#'+uid+'_').val()) ;
+
+
+                   //获得最下方总数量
+                   var zong_number = parseInt($('#total_number').html());
+
+
+
+
+
+                    if(fuhao == '+'){
+
+                        zong_number++;
+                       //更新选中商品的总数量
+                        $('#total_number').html(zong_number);
+
+                        $('.summoney').html(zong_pri+danjia);
+                    }else{
+                        zong_number--;
+                        //更新选中商品的总数量
+                        $('#total_number').html(zong_number);
+
+                        $('.summoney').html(zong_pri-danjia);
+                    }
+
+
+                }
+
+
+                $('#'+uid+'_').val(num);
+
+            }
+        });
+    }
+
+
+</script>
+

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        var color = {city: "北京", temp: "31", wind: "3"};
+        //var json 	= '{"a": "Hello", "b": "World"}';
+       console.log(color.city);
+
+       // console.log(color);
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

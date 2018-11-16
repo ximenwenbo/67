@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+
+				//alert(1);
+				//获得被校验的用户名信息
+				//var nm = document.getElementById('username').value;
+				var nm = "trump&age=70很棒";
+				nm = encodeURIComponent(nm);
+				//把用户名传递给服务器校验是否存在
+				
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function(){
+					if (xhr.readyState==4) {
+						alert(xhr.responseText);
+					//document.getElementById('result').innerHTML=xhr.responseText;
+					}
+				}
+
+				//xhr.open('get','07.php',true);
+				xhr.open('get','07.php',false);
+
+				xhr.send(null);
+				
+				
+
+		</script>	
+</head>
+<body>
+	<h2>Ajax异步同步效果</h2>
+	<img src="index.jpg" alt="" width="200" />
+	
+
+</body>
+
+</html>
